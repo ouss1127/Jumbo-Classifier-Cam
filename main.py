@@ -20,8 +20,8 @@ class FrameworkTypes(enum.Enum):
 # settings
 # TODO make this more flexible by moving to a txt or a JSON.
 CAMERA_TYPE = CameraTypes.mv
-FRAMEWORK = FrameworkTypes.keras
-MODEL_PATH = "MobileNetV2_best_epoch.h5"
+FRAMEWORK = FrameworkTypes.coral
+MODEL_PATH = "models/MobileNetV2.tflite"
 LABELS_PATH = "models/tm1_labels.txt"
 
 print('main.py execution in progress')
@@ -39,7 +39,7 @@ def main():
 				frame = cam.processCapture()
 				if processFrame == True:
 					results = classifier.classify(frame) 
-					# print(results)
+					print(results)
 					processFrame = False # Reset variable
 					print("Processed Frame")
 				print(frame.shape)
@@ -61,7 +61,7 @@ def instanciateCamera(type, cameraNumber = 0):
 
 def instanciateClassifier(type, modelPath, labelsPath):
 	if type == FrameworkTypes.coral:
-		cam = classifier.Coral(modelPath, labelsPath)
+		cam = classifier.Coral(modelPath)
 	elif type == FrameworkTypes.tflite:
 		cam = classifier.TFLite(modelPath, labelsPath)
 	elif type == FrameworkTypes.dummy:

@@ -1,29 +1,31 @@
 import time
 import cv2
 import numpy as np
-from tensorflow import lite as tflite
+#from tensorflow import lite as tflite
 
 
 #Coral
-import pycoral
-#from pycoral.utils.dataset import read_label_file
-#from pycoral.utils.edgetpu import make_interpreter
-#from pycoral.adapters import common
-#from pycoral.adapters import classify
+#import pycoral
+from pycoral.utils.dataset import read_label_file
+from pycoral.utils.edgetpu import make_interpreter
+from pycoral.adapters import common
+from pycoral.adapters import classify
 
 #Keras
-from keras.models import load_model
+#from keras.models import load_model
 
 #Dummy
 import random
 from time import sleep
 
 class Coral:
-    def __init__(self, modelPath, labelsPath):
+    def __init__(self, modelPath):
         self.modelPath = modelPath
-        self.labelsPath = labelsPath
+#        self.labelsPath = labelsPath
         self.interpreter = make_interpreter(self.modelPath)
-        self.labels = read_label_file(self.labelsPath)
+        self.interpreter.allocate_tensors()
+
+#        self.labels = read_label_file(self.labelsPath)
       
     def __enter__(self):
         self.interpreter.allocate_tensors()
